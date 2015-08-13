@@ -1,32 +1,37 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                              http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.trustedanalytics</groupId>
     <artifactId>spring-project-template</artifactId>
     <packaging>pom</packaging>
-    <version>0.4.1</version>
+    <version>0.4.2-SNAPSHOT</version>
     <name>Spring Boot Parent POM</name>
 
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.2.2.RELEASE</version>
-	</parent>
-	
-	<properties>
-		<java.version>1.8</java.version>
-                
-                <repository.snapshot.id>snapshots</repository.snapshot.id>
-                <repository.snapshot.name>SnapshotRepository</repository.snapshot.name>
-                <repository.snapshot.url>file:///${user.home}/.m2/snapshots</repository.snapshot.url>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.2.2.RELEASE</version>
+    </parent>
 
-                <repository.release.id>releases</repository.release.id>
-                <repository.release.name>ReleaseRepository</repository.release.name>
-                <repository.release.url>file:///${user.home}/.m2/releases</repository.release.url> 
-	</properties>
-	
-	<build>
+    <properties>
+        <java.version>1.8</java.version>
+
+        <skip-jacoco>false</skip-jacoco>
+        <skip-jacoco-check>false</skip-jacoco-check>
+        <jacoco-measurement-instructions>0</jacoco-measurement-instructions>
+        <jacoco-measurement-branches>0</jacoco-measurement-branches>
+
+        <repository.snapshot.id>snapshots</repository.snapshot.id>
+        <repository.snapshot.name>SnapshotRepository</repository.snapshot.name>
+        <repository.snapshot.url>file:///${user.home}/.m2/snapshots</repository.snapshot.url>
+
+        <repository.release.id>releases</repository.release.id>
+        <repository.release.name>ReleaseRepository</repository.release.name>
+        <repository.release.url>file:///${user.home}/.m2/releases</repository.release.url>
+    </properties>
+
+    <build>
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -36,35 +41,87 @@
                 </plugin>
             </plugins>
         </pluginManagement>
-	    <plugins>
+        <plugins>
             <plugin>
                 <groupId>com.mycila</groupId>
                 <artifactId>license-maven-plugin</artifactId>
                 <version>2.6</version>
-                <configuration>   
+                <configuration>
                     <header>license/license_header.txt</header>
                     <includes>
                         <include>src/**/*.java</include>
-	                <include>src/**/*.html</include>
-		        <include>tools/*.sh</include>
-		        <include>license_checker/*.sh</include>
-			<include>license/*.sh</include>
-                    </includes>                  
-                <mapping>
-                    <java>JAVADOC_STYLE</java>
-	            <sh>SCRIPT_STYLE</sh>
-		    <html>XML_STYLE</html> 
-                </mapping>
-             </configuration>
-             <executions>
-                <execution>
-                    <id>check-license</id>
-                    <phase>initialize</phase>
-                    <goals>
-                        <goal>check</goal>
-                    </goals>
-                </execution>
-            </executions>
+                        <include>src/**/*.html</include>
+                        <include>tools/*.sh</include>
+                        <include>license_checker/*.sh</include>
+                        <include>license/*.sh</include>
+                    </includes>
+                    <mapping>
+                        <java>JAVADOC_STYLE</java>
+                        <sh>SCRIPT_STYLE</sh>
+                        <html>XML_STYLE</html>
+                    </mapping>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>check-license</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.7.4.201502262128</version>
+                <configuration>
+                    <skip>${skip-jacoco}</skip>
+                    <destFile>${basedir}/target/coverage-reports/jacoco-unit.exec</destFile>
+                    <dataFile>${basedir}/target/coverage-reports/jacoco-unit.exec</dataFile>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>jacoco-initialize</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>jacoco-site</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>jacoco-check</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${skip-jacoco-check}</skip>
+                            <rules>
+                                <rule>
+                                    <element>BUNDLE</element>
+                                    <limits>
+                                        <limit>
+                                            <counter>INSTRUCTION</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>${jacoco-measurement-instructions}</minimum>
+                                        </limit>
+                                        <limit>
+                                            <counter>BRANCH</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>${jacoco-measurement-branches}</minimum>
+                                        </limit>
+                                    </limits>
+                                </rule>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
