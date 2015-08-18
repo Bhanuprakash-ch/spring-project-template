@@ -29,6 +29,7 @@
         <repository.release.id>releases</repository.release.id>
         <repository.release.name>ReleaseRepository</repository.release.name>
         <repository.release.url>file:///${user.home}/.m2/releases</repository.release.url>
+        <hadoop.version>2.6.0-cdh5.4.2.1</hadoop.version>
     </properties>
 
     <build>
