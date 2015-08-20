@@ -21,6 +21,8 @@
         <skip-jacoco-check>false</skip-jacoco-check>
         <jacoco-measurement-instructions>0</jacoco-measurement-instructions>
         <jacoco-measurement-branches>0</jacoco-measurement-branches>
+        <jacoco-measurement-lines>0</jacoco-measurement-lines>
+        <jacoco-measurement-classes>0</jacoco-measurement-classes>
 
         <repository.snapshot.id>snapshots</repository.snapshot.id>
         <repository.snapshot.name>SnapshotRepository</repository.snapshot.name>
@@ -90,7 +92,7 @@
                     </execution>
                     <execution>
                         <id>jacoco-site</id>
-                        <phase>package</phase>
+                        <phase>verify</phase>
                         <goals>
                             <goal>report</goal>
                         </goals>
@@ -116,6 +118,16 @@
                                             <counter>BRANCH</counter>
                                             <value>COVEREDRATIO</value>
                                             <minimum>${jacoco-measurement-branches}</minimum>
+                                        </limit>
+                                        <limit>
+                                            <counter>LINE</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>${jacoco-measurement-lines}</minimum>
+                                        </limit>
+                                        <limit>
+                                            <counter>CLASS</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>${jacoco-measurement-classes}</minimum>
                                         </limit>
                                     </limits>
                                 </rule>
