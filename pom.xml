@@ -5,7 +5,7 @@
     <groupId>org.trustedanalytics</groupId>
     <artifactId>spring-project-template</artifactId>
     <packaging>pom</packaging>
-    <version>0.4.2</version>
+    <version>0.4.3</version>
     <name>Spring Boot Parent POM</name>
 
     <parent>
@@ -27,12 +27,19 @@
         <repository.snapshot.id>snapshots</repository.snapshot.id>
         <repository.snapshot.name>SnapshotRepository</repository.snapshot.name>
         <repository.snapshot.url>file:///${user.home}/.m2/snapshots</repository.snapshot.url>
+        
+        <git-repository>spring-project-template-placeholder</git-repository>
 
         <repository.release.id>releases</repository.release.id>
         <repository.release.name>ReleaseRepository</repository.release.name>
         <repository.release.url>file:///${user.home}/.m2/releases</repository.release.url>
         <hadoop.version>2.6.0-cdh5.4.2.1</hadoop.version>
     </properties>
+
+    <scm>
+        <connection>scm:git:git@${artifactId}:${git-repository}</connection>
+        <tag>HEAD</tag>
+    </scm>
 
     <build>
         <pluginManagement>
